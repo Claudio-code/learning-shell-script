@@ -1,6 +1,6 @@
-<p align="center">
+<h2 align="center">
   :penguin: Shell Script :penguin:
-</p>
+</h2>
 
 ## About Project
 
