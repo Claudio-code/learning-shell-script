@@ -2,15 +2,17 @@
 
 # shellcheck disable=SC2068
 
+FILE_DESTINY="/home/$USER/Downloads/programas"
+
 LISTA_DE_PPA=(
   libratbag-piper-libratbag-git
   lutris-team/lutris
 )
 
-URL_DOWNLOAD_CHROME="https://dl.google.com/linux/google-chrome-stable_current_amd64.deb"
-URL_DOWNLOAD_SIMPLENOTE="https://github.com/Automattic/simplenote-electron/releases/downloads/v1.8.0/Simplenote-linux-1.8.0-amd64.deb"
-
-FILE_DESTINY="/home/$USER/Downloads/programas"
+PROGRAMAS_PARA_INSTALAR_DEB=(
+  https://dl.google.com/linux/google-chrome-stable_current_amd64.deb
+  https://github.com/Automattic/simplenote-electron/releases/downloads/v1.8.0/Simplenote-linux-1.8.0-amd64.deb
+)
 
 PROGRAMAS_PARA_INSTALAR_SNAPS=(
   spotify
@@ -54,17 +56,25 @@ adicionar_ppas () {
 }
 
 baixar_pacotes_deb () {
-  if [[ ! -d "$FILE_DESTINY" ]]; then
-    mkdir "$FILE_DESTINY"
-  fi
+  [[ ! -d "$FILE_DESTINY" ]] && mkdir "$FILE_DESTINY"
 
-  wget $URL_DOWNLOAD_CHROME     -P "$FILE_DESTINY"
-  wget $URL_DOWNLOAD_SIMPLENOTE -P "$FILE_DESTINY"
+  for url in ${PROGRAMAS_PARA_INSTALAR_DEB}; do
+    verificar_arquivo_baixado "$url"
+  done
+
+  sudo apt -f install -y
 }
 
-instalar_pacotes_debs () {
-  sudo dpkg -i "$FILE_DESTINY/*.deb"
-  sudo apt -f install -y
+verificar_arquivo_baixado () {
+  local url="$1"
+  local url_extraida=${echo ${url##*/} | sed 's/-/_/g' | cut -d _ -f 1}
+
+  if ! dpkg -l | grep -iq $url_extraida; then
+    wget -c "$url" -P "$FILE_DESTINY"
+    sudo dpkg -i "$FILE_DESTINY/${url##*}"
+  else
+    mostrar_mensagem "[INFO] O programa $url_extraida já foi instalado."
+  fi
 }
 
 instalar_pacotes_apt () {
@@ -72,7 +82,7 @@ instalar_pacotes_apt () {
     if ! dpkg -l | grep -q $programa; then
       sudo apt install $programa -y
     else
-      mostrar_mensagem "o programa $programa já foi instalado."
+      mostrar_mensagem "[INFO] o programa $programa já foi instalado."
     fi
   done
 }
@@ -97,7 +107,6 @@ remover_locks
 adicionar_arquitetura_i386
 adicionar_ppas
 baixar_pacotes_deb
-instalar_pacotes_debs
 instalar_pacotes_apt
 instalar_pacotes_snaps
 atualizar_e_limpar_sistema
