@@ -55,16 +55,6 @@ adicionar_ppas () {
   done
 }
 
-baixar_pacotes_deb () {
-  [[ ! -d "$FILE_DESTINY" ]] && mkdir "$FILE_DESTINY"
-
-  for url in ${PROGRAMAS_PARA_INSTALAR_DEB}; do
-    verificar_arquivo_baixado "$url"
-  done
-
-  sudo apt -f install -y
-}
-
 verificar_arquivo_baixado () {
   local url="$1"
   local url_extraida=${echo ${url##*/} | sed 's/-/_/g' | cut -d _ -f 1}
@@ -75,6 +65,16 @@ verificar_arquivo_baixado () {
   else
     mostrar_mensagem "[INFO] O programa $url_extraida já foi instalado."
   fi
+}
+
+baixar_pacotes_deb () {
+  [[ ! -d "$FILE_DESTINY" ]] && mkdir "$FILE_DESTINY"
+
+  for url in ${PROGRAMAS_PARA_INSTALAR_DEB}; do
+    verificar_arquivo_baixado "$url"
+  done
+
+  sudo apt -f install -y
 }
 
 instalar_pacotes_apt () {
