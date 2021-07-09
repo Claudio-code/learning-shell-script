@@ -23,6 +23,7 @@ PROGRAMAS_PARA_INSTALAR_APT=(
   winff
   guvcview
   virtualbox
+  wget
 )
 
 remover_locks () {
@@ -106,7 +107,7 @@ atualizar_e_limpar_sistema () {
 remover_locks
 adicionar_arquitetura_i386
 adicionar_ppas
-baixar_pacotes_deb
 instalar_pacotes_apt
+baixar_pacotes_deb
 instalar_pacotes_snaps
 atualizar_e_limpar_sistema
