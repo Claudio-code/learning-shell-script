@@ -25,6 +25,15 @@ PROGRAMAS_PARA_INSTALAR_APT=(
   virtualbox
   wget
 )
+  
+verificando_conexao_com_internet () {
+  if ! ping -c 1 8.8.8.8 -q &> /dev/null ; then
+    echo "[ERROR] - seu pc está sem conexão com a internet."
+    exit 1
+  fi
+
+  echo "[INFO] - seu pc está conectado a internet."
+}
 
 remover_locks () {
   sudo rm /var/lib/dpkg/lock-frontend
@@ -51,7 +60,7 @@ adicionar_ppas () {
     if ! grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep $ppa; then
       sudo apt-add-repository "ppa:$ppa" -y
     else
-      mostrar_mensagem "o ppa $ppa já foi instalado."
+      mostrar_mensagem "[INFO] - o ppa $ppa já foi instalado."
     fi
   done
 }
@@ -64,7 +73,7 @@ verificar_arquivo_baixado () {
     wget -c "$url" -P "$FILE_DESTINY"
     sudo dpkg -i "$FILE_DESTINY/${url##*}"
   else
-    mostrar_mensagem "[INFO] O programa $url_extraida já foi instalado."
+    mostrar_mensagem "[INFO] - O programa $url_extraida já foi instalado."
   fi
 }
 
@@ -83,7 +92,7 @@ instalar_pacotes_apt () {
     if ! dpkg -l | grep -q $programa; then
       sudo apt install $programa -y
     else
-      mostrar_mensagem "[INFO] o programa $programa já foi instalado."
+      mostrar_mensagem "[INFO] - o programa $programa já foi instalado."
     fi
   done
 }
@@ -93,7 +102,7 @@ instalar_pacotes_snaps () {
     if ! snap list | grep $programa; then
       sudo snap install $programa -y
     else
-      mostrar_mensagem "o programa $programa já foi instalado."
+      mostrar_mensagem "[INFO] - o programa $programa já foi instalado."
     fi
   done
 }
@@ -104,6 +113,7 @@ atualizar_e_limpar_sistema () {
   sudo apt autoremove -y
 }
 
+verificando_conexao_com_internet
 remover_locks
 adicionar_arquitetura_i386
 adicionar_ppas
