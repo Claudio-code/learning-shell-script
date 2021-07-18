@@ -120,4 +120,4 @@ verificando_conexao_com_internet \
 && instalar_pacotes_apt \
 && baixar_pacotes_deb \
 && instalar_pacotes_snaps \
-atualizar_e_limpar_sistema
+&& atualizar_e_limpar_sistema
