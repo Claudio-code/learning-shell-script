@@ -48,13 +48,13 @@ remover_locks () {
 atualizar_repositorios () {
   echo "${GREEN}[INFO]${NC} - atualizando repositorios."
 
-  sudo apt update -y
+  sudo apt update -y &> /dev/null
 }
 
 adicionar_arquitetura_i386 () {
   echo "${GREEN}[INFO]${NC} - adicionada arquitetura 32 bits."
 
-  sudo dpkg --add-architecture i386
+  sudo dpkg --add-architecture i386 &> /dev/null
   atualizar_repositorios
 }
 
@@ -69,7 +69,7 @@ adicionar_ppas () {
 
   for ppa in ${LISTA_DE_PPA[@]}; do
     if ! grep ^ /etc/apt/sources.list /etc/apt/sources.list.d/* | grep $ppa; then
-      sudo apt-add-repository "ppa:$ppa" -y
+      sudo apt-add-repository "ppa:$ppa" -y &> /dev/null
     else
       mostrar_mensagem "${GREEN}[INFO]${NC} - o ppa $ppa já foi instalado."
     fi
@@ -83,8 +83,8 @@ verificar_arquivo_baixado () {
   local url_extraida=${echo ${url##*/} | sed 's/-/_/g' | cut -d _ -f 1}
 
   if ! dpkg -l | grep -iq $url_extraida; then
-    wget -c "$url" -P "$FILE_DESTINY"
-    sudo dpkg -i "$FILE_DESTINY/${url##*}"
+    wget -c "$url" -P "$FILE_DESTINY" &> /dev/null
+    sudo dpkg -i "$FILE_DESTINY/${url##*}" &> /dev/null
   else
     mostrar_mensagem "${GREEN}[INFO]${NC} - O programa $url_extraida já foi instalado."
   fi
@@ -98,14 +98,15 @@ baixar_pacotes_deb () {
     verificar_arquivo_baixado "$url"
   done
 
-  sudo apt -f install -y
+  sudo apt -f install -y &> /dev/null
 }
 
 instalar_pacotes_apt () {
   echo "${GREEN}[INFO]${NC} - instalando programas do repositorio do ubuntu."
+  
   for programa in ${PROGRAMAS_PARA_INSTALAR_APT[@]}; do
     if ! dpkg -l | grep -q $programa; then
-      sudo apt install $programa -y
+      sudo apt install $programa -y &> /dev/null
     else
       mostrar_mensagem "${GREEN}[INFO]${NC} - o programa $programa já foi instalado."
     fi
@@ -113,9 +114,11 @@ instalar_pacotes_apt () {
 }
 
 instalar_pacotes_snaps () {
+  echo "${GREEN}[INFO]${NC} - baixando pacotes snaps."
+
   for programa in ${PROGRAMAS_PARA_INSTALAR_SNAPS[@]}; do
     if ! snap list | grep $programa; then
-      sudo snap install $programa -y
+      sudo snap install $programa -y &> /dev/null
     else
       mostrar_mensagem "${GREEN}[INFO]${NC} - o programa $programa já foi instalado."
     fi
@@ -123,9 +126,11 @@ instalar_pacotes_snaps () {
 }
 
 atualizar_e_limpar_sistema () {
-  sudo apt dist-upgrade -y
-  sudo autoclean
-  sudo apt autoremove -y
+  echo "${GREEN}[INFO]${NC} - atualizando e limpando o sistema."
+
+  sudo apt dist-upgrade -y &> /dev/null
+  sudo autoclean &> /dev/null
+  sudo apt autoremove -y &> /dev/null
 }
 
 verificando_conexao_com_internet \
