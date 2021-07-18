@@ -113,11 +113,11 @@ atualizar_e_limpar_sistema () {
   sudo apt autoremove -y
 }
 
-verificando_conexao_com_internet
-remover_locks
-adicionar_arquitetura_i386
-adicionar_ppas
-instalar_pacotes_apt
-baixar_pacotes_deb
-instalar_pacotes_snaps
+verificando_conexao_com_internet \
+&& remover_locks \
+&& adicionar_arquitetura_i386 \
+&& adicionar_ppas \
+&& instalar_pacotes_apt \
+&& baixar_pacotes_deb \
+&& instalar_pacotes_snaps \
 atualizar_e_limpar_sistema
