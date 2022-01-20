@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Author: Claudio Silva Junior
+# Date Created: 20/01/2022
+# Last Modified: 20/01/2022
+
+# Description
+# Prints "This is my first script" to the linux terminal
+
+echo "This is my first script"
+exit 0
