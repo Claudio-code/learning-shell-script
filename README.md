@@ -113,11 +113,11 @@ Its project has the objective of expanding my arcane powers in the shell script 
 #### Control operators
 | name  |  value  |
 | ----------- | ------- |
-| newline | (semicolon|newline) command delimiter operator |
+| newline | (semicolon\|newline) command delimiter operator |
 | \| | shell data processing - Pipe (command to command redirection) |
-| & | Bash - ampresand (&) - (Asynchronous|Parallel) control operator |
+| & | Bash - ampresand (&) - (Asynchronous\|Parallel) control operator |
 | && | Shell - && - AND boolean operator |
-| \|\| | Shell - || - OR boolean operator |
-| ; | Shell - (semicolon|newline) command delimiter operator |
+| \|\| | Shell - \|\| - OR boolean operator |
+| ; | Shell - (semicolon\|newline) command delimiter operator |
 | ( | Block definition |
 | ) | Block definition |
