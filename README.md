@@ -105,3 +105,19 @@ Its project has the objective of expanding my arcane powers in the shell script 
 | On_IPurple | '\033[0;1|
 | On_ICyan | '\033[0;106|
 | On_IWhite | '\033[0;10|
+
+---------------------------------------------------------------------------------------
+
+### Two types of operators
+
+#### Control operators
+| name  |  value  |
+| ----------- | ------- |
+| newline | (semicolon|newline) command delimiter operator |
+| \| | shell data processing - Pipe (command to command redirection) |
+| & | Bash - ampresand (&) - (Asynchronous|Parallel) control operator |
+| && | Shell - && - AND boolean operator |
+| \|\| | Shell - || - OR boolean operator |
+| ; | Shell - (semicolon|newline) command delimiter operator |
+| ( | Block definition |
+| ) | Block definition |
